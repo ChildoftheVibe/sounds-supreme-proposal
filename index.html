@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Sounds Supreme — Nano Tech Productions Proposal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --green: #39FF14;
+    --green-dim: #1fcc00;
+    --green-glow: rgba(57,255,20,0.18);
+    --black: #050505;
+    --card: #0c0c0c;
+    --card2: #111111;
+    --border: rgba(57,255,20,0.15);
+    --white: #f4f4f4;
+    --grey: #888;
+    --radius: 16px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Syne', sans-serif;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* ── Custom cursor ── */
+  .cursor {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--green);
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9999;
+    transform: translate(-50%,-50%);
+    transition: transform .1s, width .2s, height .2s, background .2s;
+    mix-blend-mode: difference;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    border: 1.5px solid var(--green);
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9998;
+    transform: translate(-50%,-50%);
+    transition: transform .12s ease, width .2s, height .2s;
+    opacity: 0.5;
+  }
+  body:hover .cursor { opacity: 1; }
+
+  /* ── Noise overlay ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 0; opacity: 0.45;
+  }
+
+  /* ── Nav ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 22px 6vw;
+    background: rgba(5,5,5,0.82);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 0.08em;
+    color: var(--white);
+  }
+  .nav-logo span { color: var(--green); }
+  nav ul { list-style: none; display: flex; gap: 36px; }
+  nav ul a {
+    text-decoration: none; color: var(--grey);
+    font-size: 0.8rem; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    transition: color .25s;
+  }
+  nav ul a:hover { color: var(--green); }
+  .nav-cta {
+    background: var(--green); color: var(--black);
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem; font-weight: 700;
+    letter-spacing: 0.1em; text-transform: uppercase;
+    padding: 11px 22px; border-radius: 100px;
+    text-decoration: none;
+    transition: background .25s, transform .2s, box-shadow .25s;
+    box-shadow: 0 0 18px var(--green-glow);
+  }
+  .nav-cta:hover {
+    background: #fff; transform: translateY(-2px);
+    box-shadow: 0 0 32px var(--green-glow);
+  }
+
+  /* ── Sections ── */
+  section { position: relative; z-index: 1; }
+
+  /* ── Hero ── */
+  #hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 140px 6vw 100px;
+    overflow: hidden;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px; align-items: center;
+    width: 100%;
+  }
+  .hero-eyebrow {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.72rem; color: var(--green);
+    letter-spacing: 0.2em; text-transform: uppercase;
+    margin-bottom: 18px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .hero-eyebrow::before {
+    content: ''; width: 32px; height: 1.5px;
+    background: var(--green);
+  }
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 8vw, 8rem);
+    line-height: 0.9;
+    letter-spacing: 0.02em;
+    margin-bottom: 28px;
+  }
+  h1 .accent { color: var(--green); display: block; }
+  .hero-sub {
+    font-size: 1.05rem; color: var(--grey);
+    line-height: 1.75; max-width: 500px;
+    margin-bottom: 42px;
+  }
+  .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--green); color: var(--black);
+    font-family: 'Space Mono', monospace;
+    font-weight: 700; font-size: 0.78rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 16px 36px; border-radius: 100px;
+    text-decoration: none;
+    box-shadow: 0 0 24px var(--green-glow);
+    transition: all .25s;
+    display: inline-flex; align-items: center; gap: 10px;
+  }
+  .btn-primary:hover { background: #fff; transform: translateY(-3px); }
+  .btn-ghost {
+    background: transparent;
+    border: 1.5px solid var(--border);
+    color: var(--white);
+    font-family: 'Space Mono', monospace;
+    font-weight: 700; font-size: 0.78rem;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    padding: 16px 36px; border-radius: 100px;
+    text-decoration: none;
+    transition: all .25s;
+    display: inline-flex; align-items: center; gap: 10px;
+  }
+  .btn-ghost:hover { border-color: var(--green); color: var(--green); }
+
+  /* Hero Visual */
+  .hero-visual {
+    position: relative;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .hero-orb {
+    width: 420px; height: 420px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 40%, #1a4a0a 0%, #0a1f05 45%, #050505 75%);
+    box-shadow: 0 0 80px rgba(57,255,20,0.12), inset 0 0 60px rgba(57,255,20,0.06);
+    position: relative;
+    animation: pulse 4s ease-in-out infinite;
+    display: flex; align-items: center; justify-content: center;
+  }
+  @keyframes pulse {
+    0%,100% { box-shadow: 0 0 80px rgba(57,255,20,0.12), inset 0 0 60px rgba(57,255,20,0.06); }
+    50% { box-shadow: 0 0 120px rgba(57,255,20,0.22), inset 0 0 90px rgba(57,255,20,0.1); }
+  }
+  .waveform {
+    display: flex; align-items: center; gap: 5px;
+    height: 100px;
+  }
+  .waveform span {
+    display: block; width: 6px;
+    background: var(--green);
+    border-radius: 3px;
+    animation: wave 1.2s ease-in-out infinite;
+  }
+  .waveform span:nth-child(1)  { height: 30px; animation-delay: 0s; }
+  .waveform span:nth-child(2)  { height: 55px; animation-delay: .1s; }
+  .waveform span:nth-child(3)  { height: 80px; animation-delay: .2s; }
+  .waveform span:nth-child(4)  { height: 95px; animation-delay: .3s; }
+  .waveform span:nth-child(5)  { height: 100px; animation-delay: .4s; }
+  .waveform span:nth-child(6)  { height: 80px; animation-delay: .5s; }
+  .waveform span:nth-child(7)  { height: 60px; animation-delay: .6s; }
+  .waveform span:nth-child(8)  { height: 85px; animation-delay: .7s; }
+  .waveform span:nth-child(9)  { height: 70px; animation-delay: .8s; }
+  .waveform span:nth-child(10) { height: 45px; animation-delay: .9s; }
+  .waveform span:nth-child(11) { height: 65px; animation-delay: 1.0s; }
+  .waveform span:nth-child(12) { height: 90px; animation-delay: 1.1s; }
+  @keyframes wave {
+    0%,100% { transform: scaleY(1); opacity: 0.9; }
+    50% { transform: scaleY(0.4); opacity: 0.5; }
+  }
+  .orbit-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    animation: spin linear infinite;
+  }
+  .orbit-ring:nth-child(2) { width: 480px; height: 480px; animation-duration: 20s; }
+  .orbit-ring:nth-child(3) { width: 540px; height: 540px; animation-duration: 30s; animation-direction: reverse; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .orbit-dot {
+    width: 8px; height: 8px;
+    background: var(--green);
+    border-radius: 50%;
+    position: absolute; top: -4px; left: 50%;
+    transform: translateX(-50%);
+    box-shadow: 0 0 12px var(--green);
+  }
+  .hero-stats {
+    display: flex; gap: 40px; margin-top: 50px;
+  }
+  .stat { display: flex; flex-direction: column; }
+  .stat-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.4rem; color: var(--green);
+    line-height: 1;
+  }
+  .stat-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem; color: var(--grey);
+    letter-spacing: 0.12em; text-transform: uppercase;
+    margin-top: 4px;
+  }
+
+  /* ── Marquee ── */
+  .marquee-wrap {
+    overflow: hidden;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 0;
+    background: #080808;
+  }
+  .marquee-track {
+    display: flex; gap: 0;
+    animation: marquee 22s linear infinite;
+    white-space: nowrap;
+  }
+  .marquee-item {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem; letter-spacing: 0.1em;
+    color: var(--grey); padding: 0 32px;
+    display: flex; align-items: center; gap: 32px;
+  }
+  .marquee-item .dot { color: var(--green); font-size: 1.4rem; }
+  @keyframes marquee { to { transform: translateX(-50%); } }
+
+  /* ── Section headers ── */
+  .section-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem; color: var(--green);
+    letter-spacing: 0.22em; text-transform: uppercase;
+    margin-bottom: 14px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-tag::before { content: '//'; opacity: 0.5; }
+  h2 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.6rem, 5vw, 4.5rem);
+    line-height: 0.95; letter-spacing: 0.02em;
+    margin-bottom: 20px;
+  }
+  h2 .g { color: var(--green); }
+  .section-intro {
+    font-size: 1rem; color: var(--grey);
+    line-height: 1.8; max-width: 580px;
+  }
+
+  /* ── About ── */
+  #about {
+    padding: 120px 6vw;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .about-visual {
+    position: relative;
+  }
+  .about-card-stack {
+    display: flex; flex-direction: column; gap: 14px;
+  }
+  .about-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px 26px;
+    display: flex; align-items: center; gap: 18px;
+    transition: border-color .25s, transform .25s;
+  }
+  .about-card:hover { border-color: var(--green); transform: translateX(6px); }
+  .about-card-icon {
+    width: 44px; height: 44px; min-width: 44px;
+    background: var(--green-glow);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.2rem;
+  }
+  .about-card-text h4 {
+    font-weight: 700; font-size: 0.95rem;
+    margin-bottom: 3px;
+  }
+  .about-card-text p { font-size: 0.8rem; color: var(--grey); line-height: 1.5; }
+
+  /* ── Features ── */
+  #features {
+    padding: 120px 6vw;
+    background: linear-gradient(180deg, transparent 0%, #080808 50%, transparent 100%);
+  }
+  .features-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 60px; flex-wrap: wrap; gap: 24px;
+  }
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  .feature-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 36px 30px;
+    position: relative; overflow: hidden;
+    transition: border-color .3s, transform .3s;
+  }
+  .feature-card::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--green), transparent);
+    opacity: 0; transition: opacity .3s;
+  }
+  .feature-card:hover { border-color: var(--green); transform: translateY(-6px); }
+  .feature-card:hover::before { opacity: 1; }
+  .feature-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 4rem; color: rgba(57,255,20,0.08);
+    line-height: 1; margin-bottom: -10px;
+  }
+  .feature-icon { font-size: 2rem; margin-bottom: 16px; display: block; }
+  .feature-card h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem; letter-spacing: 0.04em;
+    margin-bottom: 12px; color: var(--white);
+  }
+  .feature-card p { font-size: 0.88rem; color: var(--grey); line-height: 1.7; }
+  .feature-tag {
+    display: inline-block;
+    margin-top: 18px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.62rem; color: var(--green);
+    background: rgba(57,255,20,0.08);
+    border: 1px solid rgba(57,255,20,0.2);
+    padding: 4px 12px; border-radius: 100px;
+    letter-spacing: 0.1em;
+  }
+
+  /* ── Tech Stack ── */
+  #stack {
+    padding: 120px 6vw;
+  }
+  .stack-header { margin-bottom: 60px; }
+  .stack-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .stack-card {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+    display: flex; align-items: flex-start; gap: 18px;
+    transition: border-color .25s, transform .25s;
+    cursor: default;
+  }
+  .stack-card:hover { border-color: var(--green); transform: translateY(-4px); }
+  .stack-badge {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem; color: var(--green);
+    background: rgba(57,255,20,0.08);
+    border: 1px solid rgba(57,255,20,0.15);
+    border-radius: 10px;
+    width: 52px; height: 52px; min-width: 52px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .stack-info h4 { font-weight: 700; font-size: 0.95rem; margin-bottom: 6px; }
+  .stack-info p { font-size: 0.8rem; color: var(--grey); line-height: 1.5; }
+  .stack-info .role {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.6rem; color: var(--green);
+    letter-spacing: 0.12em; text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  /* ── Roadmap ── */
+  #roadmap { padding: 120px 6vw; }
+  .roadmap-header { margin-bottom: 70px; }
+  .timeline {
+    display: flex; gap: 0;
+    position: relative;
+  }
+  .timeline::before {
+    content: '';
+    position: absolute;
+    top: 32px; left: 0; right: 0;
+    height: 1px; background: var(--border);
+    z-index: 0;
+  }
+  .timeline-item {
+    flex: 1; position: relative; z-index: 1;
+    padding-right: 20px;
+  }
+  .timeline-dot {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    background: var(--black);
+    border: 2px solid var(--green);
+    margin-bottom: 24px;
+    position: relative;
+    box-shadow: 0 0 12px var(--green-glow);
+  }
+  .timeline-dot.active { background: var(--green); }
+  .timeline-week {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1rem; color: var(--green);
+    letter-spacing: 0.1em; margin-bottom: 6px;
+  }
+  .timeline-title {
+    font-weight: 800; font-size: 0.9rem;
+    margin-bottom: 14px;
+  }
+  .timeline-tasks {
+    list-style: none; display: flex; flex-direction: column; gap: 8px;
+  }
+  .timeline-tasks li {
+    font-size: 0.78rem; color: var(--grey);
+    padding-left: 14px; position: relative; line-height: 1.4;
+  }
+  .timeline-tasks li::before {
+    content: '→';
+    position: absolute; left: 0;
+    color: var(--green); font-size: 0.7rem;
+  }
+
+  /* ── Pricing ── */
+  #pricing { padding: 120px 6vw; }
+  .pricing-intro { margin-bottom: 60px; }
+  .pricing-layout {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 28px;
+    align-items: start;
+  }
+
+  /* Cost breakdown table */
+  .cost-table {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+  .cost-table-header {
+    background: rgba(57,255,20,0.06);
+    padding: 20px 28px;
+    border-bottom: 1px solid var(--border);
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .cost-table-header h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem; letter-spacing: 0.05em;
+  }
+  .cost-table-header span {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem; color: var(--green);
+    letter-spacing: 0.12em; text-transform: uppercase;
+  }
+  .cost-row {
+    display: flex; align-items: flex-start; justify-content: space-between;
+    padding: 18px 28px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    gap: 20px;
+    transition: background .2s;
+  }
+  .cost-row:hover { background: rgba(57,255,20,0.03); }
+  .cost-row:last-child { border-bottom: none; }
+  .cost-service { flex: 1; }
+  .cost-service .name {
+    font-weight: 700; font-size: 0.88rem; margin-bottom: 3px;
+  }
+  .cost-service .desc {
+    font-size: 0.74rem; color: var(--grey); line-height: 1.4;
+  }
+  .cost-price {
+    text-align: right; white-space: nowrap;
+  }
+  .cost-price .amount {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.88rem; color: var(--green);
+  }
+  .cost-price .period {
+    font-size: 0.65rem; color: var(--grey);
+    display: block; margin-top: 2px;
+  }
+  .cost-total {
+    background: rgba(57,255,20,0.07);
+    border-top: 1px solid rgba(57,255,20,0.25) !important;
+    padding: 22px 28px !important;
+  }
+  .cost-total .name { color: var(--green); font-size: 1rem !important; }
+  .cost-total .amount { font-size: 1.1rem !important; }
+
+  /* Dev fee card */
+  .dev-card {
+    background: var(--green);
+    border-radius: var(--radius);
+    padding: 36px 32px;
+    color: var(--black);
+    position: relative; overflow: hidden;
+  }
+  .dev-card::before {
+    content: '';
+    position: absolute; top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.08);
+  }
+  .dev-card-tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.65rem; font-weight: 700;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    opacity: 0.7; margin-bottom: 12px;
+  }
+  .dev-card h3 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem; letter-spacing: 0.03em;
+    margin-bottom: 6px;
+    color: var(--black);
+  }
+  .dev-card .price-big {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 4rem; line-height: 1;
+    color: var(--black); margin-bottom: 4px;
+  }
+  .dev-card .price-note {
+    font-size: 0.8rem; opacity: 0.65; margin-bottom: 28px;
+    line-height: 1.4;
+  }
+  .dev-includes { display: flex; flex-direction: column; gap: 10px; }
+  .dev-include-item {
+    display: flex; align-items: center; gap: 10px;
+    font-size: 0.82rem; font-weight: 600;
+  }
+  .dev-include-item::before {
+    content: '✓';
+    width: 20px; height: 20px;
+    background: rgba(0,0,0,0.15);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.7rem; flex-shrink: 0;
+    padding-left: 5px;
+  }
+  .dev-divider {
+    height: 1px; background: rgba(0,0,0,0.15);
+    margin: 24px 0;
+  }
+  .dev-note {
+    font-size: 0.74rem; opacity: 0.7; line-height: 1.5;
+  }
+
+  /* Disclaimer row */
+  .pricing-disclaimer {
+    margin-top: 20px;
+    background: rgba(57,255,20,0.04);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 28px;
+    display: flex; gap: 14px; align-items: flex-start;
+  }
+  .pricing-disclaimer .icon { font-size: 1.2rem; flex-shrink: 0; margin-top: 2px; }
+  .pricing-disclaimer p { font-size: 0.8rem; color: var(--grey); line-height: 1.65; }
+  .pricing-disclaimer strong { color: var(--white); }
+
+  /* ── CTA ── */
+  #cta {
+    padding: 140px 6vw;
+    text-align: center;
+    position: relative;
+  }
+  #cta::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 50%, rgba(57,255,20,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  #cta h2 { font-size: clamp(3rem, 6vw, 6rem); margin-bottom: 22px; }
+  #cta p { color: var(--grey); font-size: 1.05rem; max-width: 520px; margin: 0 auto 46px; line-height: 1.75; }
+  .cta-btns { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+  .built-by {
+    margin-top: 80px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.7rem; color: var(--grey);
+    letter-spacing: 0.14em; text-transform: uppercase;
+  }
+  .built-by strong { color: var(--green); }
+
+  /* ── Footer ── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 30px 6vw;
+    display: flex; justify-content: space-between; align-items: center;
+    flex-wrap: wrap; gap: 14px;
+    background: #080808;
+  }
+  footer p { font-size: 0.75rem; color: var(--grey); }
+  footer a { color: var(--green); text-decoration: none; }
+
+  /* ── Reveal animation ── */
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ── Responsive ── */
+  @media (max-width: 900px) {
+    .hero-grid,
+    #about,
+    .pricing-layout { grid-template-columns: 1fr; }
+    .features-grid,
+    .stack-grid { grid-template-columns: 1fr 1fr; }
+    .hero-visual { display: none; }
+    .timeline { flex-direction: column; gap: 30px; }
+    .timeline::before { display: none; }
+    nav ul { display: none; }
+  }
+  @media (max-width: 600px) {
+    .features-grid,
+    .stack-grid { grid-template-columns: 1fr; }
+    h2 { font-size: 2.6rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Custom cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- ── NAV ── -->
+<nav>
+  <div class="nav-logo">Sounds<span>Supreme</span></div>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#features">Features</a></li>
+    <li><a href="#stack">Tech Stack</a></li>
+    <li><a href="#roadmap">Roadmap</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+  </ul>
+  <a href="#cta" class="nav-cta">Get Started →</a>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="hero-grid">
+    <div>
+      <div class="hero-eyebrow">Nano Tech Productions &nbsp;×&nbsp; Sounds Supreme</div>
+      <h1>
+        The V.I.'s
+        <span class="accent">Music App</span>
+        Is Here.
+      </h1>
+      <p class="hero-sub">
+        A full-stack, production-ready music streaming platform built exclusively for Virgin Islands artists and listeners. On-demand streaming, in-app purchases, personalized playlists — launching in 5 weeks.
+      </p>
+      <div class="hero-btns">
+        <a href="#pricing" class="btn-primary">View Proposal ↓</a>
+        <a href="#features" class="btn-ghost">See Features</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-num">5</span>
+          <span class="stat-label">Week Build</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">6</span>
+          <span class="stat-label">Core Technologies</span>
+        </div>
+        <div class="stat">
+          <span class="stat-num">∞</span>
+          <span class="stat-label">Scalable Users</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="orbit-ring"><div class="orbit-dot"></div></div>
+      <div class="orbit-ring"><div class="orbit-dot"></div></div>
+      <div class="hero-orb">
+        <div class="waveform">
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── MARQUEE ── -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <div class="marquee-item">On-Demand Streaming <span class="dot">●</span> Free Ad-Supported Tier <span class="dot">●</span> In-App Purchases <span class="dot">●</span> Artist Royalty Splits <span class="dot">●</span> Personalized Playlists <span class="dot">●</span> Genre Discovery <span class="dot">●</span> Secure Downloads <span class="dot">●</span> iOS &amp; Android <span class="dot">●</span></div>
+    <div class="marquee-item">On-Demand Streaming <span class="dot">●</span> Free Ad-Supported Tier <span class="dot">●</span> In-App Purchases <span class="dot">●</span> Artist Royalty Splits <span class="dot">●</span> Personalized Playlists <span class="dot">●</span> Genre Discovery <span class="dot">●</span> Secure Downloads <span class="dot">●</span> iOS &amp; Android <span class="dot">●</span></div>
+  </div>
+</div>
+
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div>
+    <div class="section-tag reveal">The Vision</div>
+    <h2 class="reveal">Built for the <span class="g">V.I.</span><br>By the V.I.</h2>
+    <p class="section-intro reveal" style="margin-bottom:40px;">
+      Sounds Supreme isn't just another streaming app. It's a cultural hub — a dedicated space where Virgin Islands artists own their sound and listeners discover authentic VI music the way it was meant to be heard.
+    </p>
+    <p class="section-intro reveal" style="color: var(--white); font-size: 0.9rem; line-height: 1.8;">
+      Nano Tech Productions will handle every layer of development — from setting up the cloud infrastructure to submitting to the App Store. You focus on building your artist relationships. We handle the tech.
+    </p>
+  </div>
+  <div class="about-visual reveal">
+    <div class="about-card-stack">
+      <div class="about-card">
+        <div class="about-card-icon">🎵</div>
+        <div class="about-card-text">
+          <h4>Artist-First Platform</h4>
+          <p>Revenue splits handled per-contract, full artist profiles, music uploader dashboard, and CRUD controls.</p>
+        </div>
+      </div>
+      <div class="about-card">
+        <div class="about-card-icon">🔒</div>
+        <div class="about-card-text">
+          <h4>Security & Compliance</h4>
+          <p>Firebase Auth, encrypted downloads, Stripe PCI compliance, and secure signed URLs for all media.</p>
+        </div>
+      </div>
+      <div class="about-card">
+        <div class="about-card-icon">📈</div>
+        <div class="about-card-text">
+          <h4>Built to Scale</h4>
+          <p>Cloud-native architecture on Google Cloud + BunnyCDN handles thousands of concurrent streams without breaking a sweat.</p>
+        </div>
+      </div>
+      <div class="about-card">
+        <div class="about-card-icon">🏪</div>
+        <div class="about-card-text">
+          <h4>App Store Ready</h4>
+          <p>TestFlight beta, Apple Store Connect submission, and Google Play deployment — all included in the build.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FEATURES ── -->
+<section id="features">
+  <div class="features-header">
+    <div>
+      <div class="section-tag reveal">Core Features</div>
+      <h2 class="reveal">What <span class="g">Sounds Supreme</span><br>Does Different</h2>
+    </div>
+    <p class="section-intro reveal" style="max-width:340px; text-align:right;">
+      Three revenue streams, one cohesive platform — built to monetize immediately.
+    </p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card reveal">
+      <div class="feature-num">01</div>
+      <span class="feature-icon">📻</span>
+      <h3>Free Streaming with Ads</h3>
+      <p>Users on the free tier get access to the full library supported by ads from local VI businesses. Sounds Supreme sells the ad space — creating a secondary revenue stream on day one.</p>
+      <span class="feature-tag">Ad Revenue</span>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-num">02</div>
+      <span class="feature-icon">🎧</span>
+      <h3>Personalized Playlists</h3>
+      <p>Users build custom playlists from the full Sounds Supreme library. Smart genre discovery powered by Algolia search keeps listeners engaged and discovering new VI artists.</p>
+      <span class="feature-tag">User Engagement</span>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-num">03</div>
+      <span class="feature-icon">💳</span>
+      <h3>In-App Purchases</h3>
+      <p>Users purchase singles and albums for offline listening or to share. Artist revenue splits are configured per-contract directly in the admin dashboard — you control who gets paid what.</p>
+      <span class="feature-tag">Direct Revenue</span>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-num">04</div>
+      <span class="feature-icon">🔐</span>
+      <h3>Secure Downloads</h3>
+      <p>Purchased content uses signed, time-limited URLs via Google Cloud — meaning files can't be shared or pirated by copying a link. Your artists' music stays protected.</p>
+      <span class="feature-tag">DRM Protection</span>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-num">05</div>
+      <span class="feature-icon">🖥️</span>
+      <h3>Admin Dashboard</h3>
+      <p>A full web-based admin portal for uploading music, managing artists, setting prices, and monitoring revenue — no coding required on your end after launch.</p>
+      <span class="feature-tag">Operator Tools</span>
+    </div>
+    <div class="feature-card reveal">
+      <div class="feature-num">06</div>
+      <span class="feature-icon">🌊</span>
+      <h3>Genre Discovery</h3>
+      <p>Built-in genre browsing and artist profile pages give listeners a way to explore the full breadth of VI music culture — soca, reggae, R&B, and beyond.</p>
+      <span class="feature-tag">Discovery Engine</span>
+    </div>
+  </div>
+</section>
+
+<!-- ── TECH STACK ── -->
+<section id="stack">
+  <div class="stack-header">
+    <div class="section-tag reveal">Technology Stack</div>
+    <h2 class="reveal">Enterprise-Grade <span class="g">Tools.</span><br>Startup-Friendly <span class="g">Costs.</span></h2>
+    <p class="section-intro reveal">Every tool in this stack was chosen for reliability, scalability, and industry-standard security. These are the same tools used by Spotify, Netflix, and Apple.</p>
+  </div>
+  <div class="stack-grid">
+    <div class="stack-card reveal">
+      <div class="stack-badge">FB</div>
+      <div class="stack-info">
+        <div class="role">Backend</div>
+        <h4>Firebase (Google)</h4>
+        <p>Authentication, real-time database, cloud functions, and user management. Industry standard. Scales to millions automatically.</p>
+      </div>
+    </div>
+    <div class="stack-card reveal">
+      <div class="stack-badge">FL</div>
+      <div class="stack-info">
+        <div class="role">Frontend & Mobile</div>
+        <h4>Flutter</h4>
+        <p>One codebase, two apps. iOS and Android built simultaneously — meaning half the development time and cost compared to building separately.</p>
+      </div>
+    </div>
+    <div class="stack-card reveal">
+      <div class="stack-badge">GC</div>
+      <div class="stack-info">
+        <div class="role">Media Hosting</div>
+        <h4>Google Cloud Storage</h4>
+        <p>All audio files live here. Encrypted at rest, access-controlled, and integrated with BunnyCDN for fast global delivery.</p>
+      </div>
+    </div>
+    <div class="stack-card reveal">
+      <div class="stack-badge">🐰</div>
+      <div class="stack-info">
+        <div class="role">Content Delivery (CDN)</div>
+        <h4>BunnyCDN</h4>
+        <p>Delivers music to listeners with low latency no matter where they are. Think of it as a turbo boost for audio streaming.</p>
+      </div>
+    </div>
+    <div class="stack-card reveal">
+      <div class="stack-badge">$</div>
+      <div class="stack-info">
+        <div class="role">Payments</div>
+        <h4>Stripe + Apple IAP</h4>
+        <p>Stripe handles web/Android payments. Apple's In-App Purchase handles iOS — required by App Store policy. Both are PCI-compliant by default.</p>
+      </div>
+    </div>
+    <div class="stack-card reveal">
+      <div class="stack-badge">🔍</div>
+      <div class="stack-info">
+        <div class="role">Search</div>
+        <h4>Algolia</h4>
+        <p>Powers the music search and genre discovery engine. Returns results in milliseconds — even with thousands of tracks in the library.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ROADMAP ── -->
+<section id="roadmap">
+  <div class="roadmap-header">
+    <div class="section-tag reveal">Development Roadmap</div>
+    <h2 class="reveal">5 Weeks to <span class="g">Launch.</span></h2>
+    <p class="section-intro reveal">A structured, milestone-driven build plan. No surprises, no scope creep — just a clear path from zero to App Store.</p>
+  </div>
+  <div class="timeline">
+    <div class="timeline-item reveal">
+      <div class="timeline-dot active"></div>
+      <div class="timeline-week">Week 01</div>
+      <div class="timeline-title">Infrastructure Setup</div>
+      <ul class="timeline-tasks">
+        <li>Firebase project configuration</li>
+        <li>Google Cloud Storage setup</li>
+        <li>RevenueCat payment config</li>
+        <li>BunnyCDN zone creation</li>
+        <li>Algolia index initialization</li>
+      </ul>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <div class="timeline-week">Week 02</div>
+      <div class="timeline-title">Admin Dashboard</div>
+      <ul class="timeline-tasks">
+        <li>Music uploader (Flutter Web)</li>
+        <li>Pricing manager panel</li>
+        <li>Artist CRUD controls</li>
+        <li>Ad campaign management</li>
+      </ul>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <div class="timeline-week">Week 03</div>
+      <div class="timeline-title">Mobile UI & Playback</div>
+      <ul class="timeline-tasks">
+        <li>Artist profile pages</li>
+        <li>Music player (background audio)</li>
+        <li>Genre discovery screens</li>
+        <li>Playlist creation & management</li>
+      </ul>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <div class="timeline-week">Week 04</div>
+      <div class="timeline-title">Payments & Downloads</div>
+      <ul class="timeline-tasks">
+        <li>RevenueCat IAP integration</li>
+        <li>Stripe checkout flow</li>
+        <li>Secure signed download URLs</li>
+        <li>Royalty split tracking</li>
+      </ul>
+    </div>
+    <div class="timeline-item reveal">
+      <div class="timeline-dot"></div>
+      <div class="timeline-week">Week 05</div>
+      <div class="timeline-title">Beta & Submission</div>
+      <ul class="timeline-tasks">
+        <li>TestFlight beta distribution</li>
+        <li>Apple Store Connect submission</li>
+        <li>Google Play Console upload</li>
+        <li>QA &amp; bug fixes</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ── PRICING ── -->
+<section id="pricing">
+  <div class="pricing-intro">
+    <div class="section-tag reveal">Investment Breakdown</div>
+    <h2 class="reveal">Transparent <span class="g">Pricing.</span><br>No Hidden Fees.</h2>
+    <p class="section-intro reveal">Here's exactly what you'll spend — both to build the app and to keep it running every month after launch.</p>
+  </div>
+
+  <div class="pricing-layout">
+    <!-- Cost Table -->
+    <div>
+      <div class="cost-table reveal">
+        <div class="cost-table-header">
+          <h3>Monthly Operating Costs</h3>
+          <span>After Launch</span>
+        </div>
+
+        <div class="cost-row">
+          <div class="cost-service">
+            <div class="name">Firebase (Blaze Plan)</div>
+            <div class="desc">Authentication, Firestore database, Cloud Functions. Pay-as-you-go — free tier covers first ~50K reads/day.</div>
+          </div>
+          <div class="cost-price">
+            <span class="amount">$0–$50</span>
+            <span class="period">per month</span>
+          </div>
+        </div>
+
+        <div class="cost-row">
+          <div class="cost-service">
+            <div class="name">Google Cloud Storage</div>
+            <div class="desc">~$0.02/GB stored. 500 songs at ~5MB each = ~2.5GB ≈ $0.05/mo. Scales as catalog grows.</div>
+          </div>
+          <div class="cost-price">
+            <span class="amount">$5–$30</span>
+            <span class="period">per month</span>
+          </div>
+        </div>
+
+        <div class="cost-row">
+          <div class="cost-service">
+            <div class="name">BunnyCDN</div>
+            <div class="desc">~$0.01/GB bandwidth delivered. 1,000 streams/day @ 5MB/stream = ~150GB/mo ≈ $1.50. Very affordable.</div>
+          </div>
+          <div class="cost-price">
+            <span class="amount">$5–$25</span>
+            <span class="period">per month</span>
+          </div>
+        </div>
+
+        <div class="cost-row">
+          <div class="cost-service">
+            <div class="name">Algolia Search</div>
+            <div class="desc">Free tier: 10K searches/month. Grow plan starts at $50/mo for up to 100K searches.</div>
+          </div>
+          <div class="cost-price">
+            <span class="amount">$0–$50</span>
+            <span class="period">per month</span>
+          </div>
+        </div>
+
+        <div class="cost-row">
+          <div class="cost-service">
+            <div class="name">RevenueCat</div>
+            <div class="desc">Free up to $2,500 MRR. Above that, 1% of revenue. No upfront cost — only pays when you do.</div>
+          </div>
+          <div class="cost-price">
+            <span class="amount">$0 → 1%</span>
+            <span class="period">of revenue</span>
+          </div>
+        </div>
+
+        <div class="cost-row">
+          <div class="cost-service">
+            <div class="name">Stripe Processing</div>
+            <div class="desc">2.9% + $0.30 per transaction. Industry standard. Only charged when a sale is made.</div>
+          </div>
+          <div class="cost-price">
+            <span class="amount">2.9% + $0.30</span>
+            <span class="period">per transaction</span>
+          </div>
+        </div>
+
+        <div class="cost-row">
+          <div class="cost-service">
+            <div class="name">Apple Developer Account</div>
+            <div class="desc">Required for App Store distribution. One flat annual fee — no per-download charges.</div>
+          </div>
+          <div class="cost-price">
+            <span class="amount">$99</span>
+            <span class="period">per year</span>
+          </div>
+        </div>
+
+        <div class="cost-row">
+          <div class="cost-service">
+            <div class="name">Google Play Console</div>
+            <div class="desc">One-time registration fee. Unlimited app updates and distribution included forever.</div>
+          </div>
+          <div class="cost-price">
+            <span class="amount">$25</span>
+            <span class="period">one-time</span>
+          </div>
+        </div>
+
+        <div class="cost-row cost-total">
+          <div class="cost-service">
+            <div class="name">Estimated Monthly Operating Total</div>
+            <div class="desc">At launch with a small-to-medium user base. Scales with your growth — costs rise only as revenue does.</div>
+          </div>
+          <div class="cost-price">
+            <span class="amount">~$50–$160</span>
+            <span class="period">per month</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pricing-disclaimer reveal" style="margin-top:16px;">
+        <span class="icon">💡</span>
+        <p><strong>Good news:</strong> Almost every service above has a free tier or charges only when you earn money. Your real operating costs at launch will be extremely low — likely under $60/month — and only grow as your user base and revenue grow. This is the most cost-efficient architecture for a startup music platform available today.</p>
+      </div>
+    </div>
+
+    <!-- Dev Fee Card -->
+    <div class="dev-card reveal">
+      <div class="dev-card-tag">Development Investment</div>
+      <h3>Full App Build</h3>
+      <div class="price-big">$8,500</div>
+      <p class="price-note">One-time development fee. Delivered in 5 weeks, fully functional, and submitted to both app stores.</p>
+      <div class="dev-divider"></div>
+      <div class="dev-includes">
+        <div class="dev-include-item">Complete iOS + Android Flutter App</div>
+        <div class="dev-include-item">Web Admin Dashboard (Flutter Web)</div>
+        <div class="dev-include-item">Firebase Backend Configuration</div>
+        <div class="dev-include-item">Google Cloud + BunnyCDN Setup</div>
+        <div class="dev-include-item">Stripe + Apple IAP Integration</div>
+        <div class="dev-include-item">Algolia Search Implementation</div>
+        <div class="dev-include-item">RevenueCat Subscription Config</div>
+        <div class="dev-include-item">App Store & Google Play Submission</div>
+        <div class="dev-include-item">TestFlight Beta Distribution</div>
+        <div class="dev-include-item">30-Day Post-Launch Support</div>
+      </div>
+      <div class="dev-divider"></div>
+      <p class="dev-note">A 50% deposit ($4,250) is due at project kickoff. The remaining 50% is due upon App Store submission. Payment plans available — let's talk.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section id="cta">
+  <div class="section-tag reveal" style="justify-content:center;">Ready to Build</div>
+  <h2 class="reveal">Let's Revolutionize<br><span class="g">VI Music.</span></h2>
+  <p class="reveal">Sounds Supreme has the vision. Nano Tech Productions has the tools to build it. Let's make this the first platform VI artists and listeners actually deserve.</p>
+  <div class="cta-btns reveal">
+    <a href="mailto:hello@nanotechproductions.com" class="btn-primary">Start the Conversation →</a>
+    <a href="#roadmap" class="btn-ghost">Review the Roadmap</a>
+  </div>
+  <div class="built-by reveal" style="margin-top:60px;">
+    Proposal prepared by <strong>Nano Tech Productions</strong> · May 2026
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <p>© 2026 Nano Tech Productions. All rights reserved.</p>
+  <p>Sounds Supreme proposal · <a href="mailto:hello@nanotechproductions.com">hello@nanotechproductions.com</a></p>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  function animateCursor() {
+    cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+    rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12;
+    ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('visible'), i * 60);
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  reveals.forEach(r => observer.observe(r));
+</script>
+</body>
+</html>
